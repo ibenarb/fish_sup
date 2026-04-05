@@ -24,10 +24,16 @@ Build:
 cmake -S . -B build && cmake --build build
 ```
 
-Run the reference example:
+Run the reference example directly:
 
 ```text
 ./build/fish_sup 2 3 30 40 30 20 20 10 false
+```
+
+Alternatively, run the bundled script:
+
+```text
+scripts/run_reference_case.sh
 ```
 
 ## Reference result
