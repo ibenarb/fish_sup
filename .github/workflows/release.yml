@@ -1,0 +1,79 @@
+name: release-on-tag
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: sudo apt update && sudo apt install -y build-essential cmake libgmp-dev
+
+      - name: Configure and build
+        run: cmake -S . -B build && cmake --build build
+
+      - name: Run reference example
+        run: ./build/fish_sup 2 3 30 40 30 20 20 10 false
+
+      - name: Upload Linux binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: fish_sup-linux
+          path: build/fish_sup
+
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies (MSYS2)
+        uses: msys2/setup-msys2@v2
+        with:
+          install: mingw-w64-x86_64-gmp mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake
+
+      - name: Configure and build
+        shell: msys2 {0}
+        run: cmake -S . -B build -G "MinGW Makefiles" && cmake --build build
+
+      - name: Run reference example
+        shell: msys2 {0}
+        run: ./build/fish_sup.exe 2 3 30 40 30 20 20 10 false
+
+      - name: Upload Windows binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: fish_sup-windows
+          path: build/fish_sup.exe
+
+  create-release:
+    needs:
+      - build-linux
+      - build-windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Linux artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: fish_sup-linux
+          path: release-assets/fish_sup-linux
+
+      - name: Download Windows artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: fish_sup-windows
+          path: release-assets/fish_sup-windows
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" "release-assets/fish_sup-linux/fish_sup#fish_sup-linux-x86_64" "release-assets/fish_sup-windows/fish_sup.exe#fish_sup-windows-x86_64.exe" --title "$GITHUB_REF_NAME" --generate-notes
