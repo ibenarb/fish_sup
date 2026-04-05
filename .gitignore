@@ -1,0 +1,30 @@
+# Build directories
+build/
+cmake-build-debug/
+cmake-build-release/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+compile_commands.json
+Makefile
+
+# Binaries
+fish_sup
+fish_sup.exe
+*.exe
+*.out
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+
+# IDE
+.idea/
+.vscode/
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*~
