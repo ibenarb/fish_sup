@@ -50,6 +50,7 @@ unconditional test result:
 - [Reference example](examples/reference_2x3.md)
 - [CLI documentation](docs/cli.md)
 - [Build on Linux / WSL / Ubuntu](docs/build_linux.md)
+- [Build on Windows](docs/build_windows.md)
 
 ## Build requirements
 
