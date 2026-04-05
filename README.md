@@ -30,10 +30,19 @@ Run the reference example directly:
 ./build/fish_sup 2 3 30 40 30 20 20 10 false
 ```
 
-Alternatively, run the bundled script:
+Alternatively, run one of the bundled scripts:
+
+
+Linux / WSL:
 
 ```text
 scripts/run_reference_case.sh
+```
+
+Windows (PowerShell):
+
+```text
+scripts/run_reference_case.ps1
 ```
 
 ## Reference result
