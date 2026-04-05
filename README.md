@@ -48,6 +48,7 @@ unconditional test result:
 - [Algorithm overview](docs/algorithm.md)
 - [Numerical notes](docs/numerics.md)
 - [Reference example](examples/reference_2x3.md)
+- [CLI documentation](docs/cli.md)
 
 ## Build requirements
 
